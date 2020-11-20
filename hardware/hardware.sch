@@ -14,10 +14,10 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Connector:DIN-5_180degree J5
+L Connector:DIN-5_180degree J3
 U 1 1 5FB453D9
 P 8100 4250
-F 0 "J5" H 8100 3975 50  0000 C CNN
+F 0 "J3" H 8100 3975 50  0000 C CNN
 F 1 "DIN-5_180degree" H 8100 3884 50  0000 C CNN
 F 2 "hardware:SDS-50J" H 8100 4250 50  0001 C CNN
 F 3 "http://www.mouser.com/ds/2/18/40_c091_abd_e-75918.pdf" H 8100 4250 50  0001 C CNN
@@ -25,10 +25,10 @@ F 3 "http://www.mouser.com/ds/2/18/40_c091_abd_e-75918.pdf" H 8100 4250 50  0001
 	-1   0    0    -1  
 $EndComp
 $Comp
-L Connector:DIN-5_180degree J3
+L Connector:DIN-5_180degree J2
 U 1 1 5FB4610C
 P 4025 4250
-F 0 "J3" H 4025 3975 50  0000 C CNN
+F 0 "J2" H 4025 3975 50  0000 C CNN
 F 1 "DIN-5_180degree" H 4025 3884 50  0000 C CNN
 F 2 "hardware:SDS-50J" H 4025 4250 50  0001 C CNN
 F 3 "http://www.mouser.com/ds/2/18/40_c091_abd_e-75918.pdf" H 4025 4250 50  0001 C CNN
@@ -48,10 +48,10 @@ F 4 "LCD" H 1225 4050 50  0000 R CNN "Name"
 	1    0    0    -1  
 $EndComp
 $Comp
-L Isolator:6N139 U1
+L Isolator:6N139 U3
 U 1 1 5FB479F7
 P 5300 4200
-F 0 "U1" H 5300 4667 50  0000 C CNN
+F 0 "U3" H 5300 4667 50  0000 C CNN
 F 1 "6N139" H 5300 4576 50  0000 C CNN
 F 2 "Package_DIP:DIP-8_W7.62mm_Socket_LongPads" H 5590 3900 50  0001 C CNN
 F 3 "http://www.onsemi.com/pub/Collateral/HCPL2731-D.pdf" H 5590 3900 50  0001 C CNN
@@ -59,10 +59,10 @@ F 3 "http://www.onsemi.com/pub/Collateral/HCPL2731-D.pdf" H 5590 3900 50  0001 C
 	1    0    0    -1  
 $EndComp
 $Comp
-L hardware:Teensy3.2 J2
+L hardware:Teensy3.2 U1
 U 1 1 5FB4EEE5
 P 3000 2025
-F 0 "J2" H 3050 2842 50  0000 C CNN
+F 0 "U1" H 3050 2842 50  0000 C CNN
 F 1 "Teensy3.2" H 3050 2751 50  0000 C CNN
 F 2 "hardware:Teensy3.2" H 3000 2025 50  0001 C CNN
 F 3 "~" H 3000 2025 50  0001 C CNN
@@ -70,10 +70,10 @@ F 3 "~" H 3000 2025 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L hardware:TeensyAudioShield3.2 J4
+L hardware:TeensyAudioShield3.2 U2
 U 1 1 5FB51D0C
 P 5225 2025
-F 0 "J4" H 5275 2842 50  0000 C CNN
+F 0 "U2" H 5275 2842 50  0000 C CNN
 F 1 "TeensyAudioShield3.2" H 5275 2751 50  0000 C CNN
 F 2 "hardware:TeensyArduinoShield3.2" H 5225 2025 50  0001 C CNN
 F 3 "~" H 5225 2025 50  0001 C CNN
