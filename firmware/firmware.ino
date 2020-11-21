@@ -12,15 +12,17 @@ AudioSynthNoisePink      pink1;          //xy=101,312
 AudioSynthWaveform       waveform1;      //xy=109,222
 AudioSynthWaveform       waveform2;      //xy=110,267
 AudioMixer4              mixer1;         //xy=321,256
-AudioEffectEnvelope      envelope1;      //xy=460,256
+AudioFilterStateVariable filter1;        //xy=454,257
 AudioEffectBitcrusher    bitcrusher1;    //xy=513,409
-AudioOutputI2S           i2s1;           //xy=630,254
+AudioEffectEnvelope      envelope1;      //xy=600,254
+AudioOutputI2S           i2s1;           //xy=775,255
 AudioConnection          patchCord1(pink1, 0, mixer1, 2);
 AudioConnection          patchCord2(waveform1, 0, mixer1, 0);
 AudioConnection          patchCord3(waveform2, 0, mixer1, 1);
-AudioConnection          patchCord4(mixer1, envelope1);
-AudioConnection          patchCord5(envelope1, 0, i2s1, 0);
-AudioConnection          patchCord6(envelope1, 0, i2s1, 1);
+AudioConnection          patchCord4(mixer1, 0, filter1, 0);
+AudioConnection          patchCord5(filter1, 0, envelope1, 0);
+AudioConnection          patchCord6(envelope1, 0, i2s1, 0);
+AudioConnection          patchCord7(envelope1, 0, i2s1, 1);
 AudioControlSGTL5000     sgtl5000_1;     //xy=110,173
 // GUItool: end automatically generated code
 
@@ -148,6 +150,23 @@ void handleControlChange(byte channel, byte control, byte value) {
     case 110:
       detuneFactor = 1 - (0.5 * (value * DIV127));
       secondOscSet(globalNote);
+      break;
+
+    case 111:
+      filter1.frequency(10000 * (value * DIV127));
+      break;
+
+    case 112:
+      filter1.resonance((4.3 * (value * DIV127)) + 0.7);
+      break;
+      
+      
+    case 120:
+      
+      break;
+      
+    case 120:
+      
       break;
   }
 }
