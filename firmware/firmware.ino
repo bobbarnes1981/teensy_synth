@@ -5,6 +5,7 @@
 #include <SPI.h>
 #include <SD.h>
 #include <SerialFlash.h>
+#include <MIDI.h>
 
 // GUItool: begin automatically generated code
 AudioSynthNoisePink      pink1;          //xy=101,312
@@ -37,6 +38,8 @@ float detuneFactor = 1;
 int bendRange = 12;
 float bendFactor = 1;
 
+MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
+
 short waveConvert[] = {
   WAVEFORM_SINE,
   WAVEFORM_TRIANGLE,
@@ -53,6 +56,13 @@ void setup() {
   usbMIDI.setHandleNoteOn(handleNoteOn);
   usbMIDI.setHandlePitchChange(handlePitchChange);
 
+  MIDI.begin();
+
+  MIDI.setHandleControlChange(handleControlChange);
+  MIDI.setHandleNoteOff(handleNoteOff);
+  MIDI.setHandleNoteOn(handleNoteOn);
+  MIDI.setHandlePitchBend(handlePitchChange);
+  
   sgtl5000_1.enable();
   sgtl5000_1.volume(0.33);
 
@@ -68,14 +78,14 @@ void setup() {
 
   pink1.amplitude(1.0);
 
-  mixer1.gain(0, 0.0);
-  mixer1.gain(1, 0.0);
+  mixer1.gain(0, 1.0);
+  mixer1.gain(1, 1.0);
   mixer1.gain(2, 0.0);
 
   envelope1.attack(0);
   envelope1.decay(0);
-  envelope1.sustain(0);
-  envelope1.release(0.0);
+  envelope1.sustain(1);
+  envelope1.release(1);
 
   filter1.frequency(0);
   filter1.resonance(0);
@@ -87,6 +97,7 @@ void loop() {
   digitalWrite(LED, millis() % 1000 < 50);
 
   usbMIDI.read();
+  MIDI.read();
 }
 
 void handleControlChange(byte channel, byte control, byte value) {
