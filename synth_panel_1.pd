@@ -1,4 +1,4 @@
-#N canvas 746 78 860 516 12;
+#N canvas 569 92 860 516 12;
 #N canvas 130 277 899 401 adsr 0;
 #X obj 10 10 cnv 15 265 200 empty empty ADSR 20 12 0 14 -99865 -66577
 0;
@@ -6,13 +6,13 @@
 -1 -1 0 1;
 #X floatatom 12 189 5 0 0 0 - - -;
 #X obj 88 46 vsl 15 128 0 127 0 0 empty empty Decay 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 12700 1;
 #X floatatom 88 189 5 0 0 0 - - -;
 #X obj 163 47 vsl 15 128 0 127 0 0 empty empty Sustain 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 300 1;
 #X floatatom 163 190 5 0 0 0 - - -;
 #X obj 238 47 vsl 15 128 0 127 0 0 empty empty Release 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 500 1;
 #X floatatom 238 190 5 0 0 0 - - -;
 #X obj 11 212 ctlout 104;
 #X obj 86 213 ctlout 105;
@@ -28,15 +28,15 @@
 #X connect 8 0 12 0;
 #X coords 0 -1 1 1 265 200 1 10 10;
 #X restore 286 41 pd adsr;
-#N canvas 683 405 757 545 oscillators 1;
+#N canvas 683 405 757 545 oscillators 0;
 #X obj 10 10 cnv 15 265 200 empty empty Oscillators 20 12 0 14 -99865
 -66577 0;
 #X obj 14 48 vsl 15 128 0 127 0 0 empty empty OSC1 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 12700 1;
 #X obj 94 47 vsl 15 128 0 127 0 0 empty empty OSC2 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 12700 1;
 #X obj 235 47 vsl 15 128 0 127 0 0 empty empty Noise 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 1800 1;
 #X floatatom 235 188 5 0 0 0 - - -;
 #X floatatom 94 190 5 0 0 0 - - -;
 #X floatatom 14 191 5 0 0 0 - - -;
@@ -44,13 +44,13 @@
 #X obj 94 213 ctlout 101;
 #X obj 235 212 ctlout 102;
 #X obj 190 45 vradio 15 1 0 5 empty empty Octave 0 -8 0 10 -262144
--1 -1 0;
+-1 -1 1;
 #X floatatom 192 130 5 0 0 0 - - -;
 #X obj 226 218 ctlout 103;
 #X text 206 44 +2;
 #X text 206 105 -2;
 #X obj 38 47 vradio 15 1 0 4 empty empty empty 0 -8 0 10 -262144 -1
--1 0;
+-1 3;
 #X text 58 50 SIN;
 #X text 58 66 TRI;
 #X text 58 78 SAW;
@@ -58,7 +58,7 @@
 #X floatatom 38 115 5 0 0 0 - - -;
 #X obj 34 245 ctlout 108;
 #X obj 116 47 vradio 15 1 0 4 empty empty empty 0 -8 0 10 -262144 -1
--1 0;
+-1 3;
 #X text 136 50 SIN;
 #X text 136 66 TRI;
 #X text 136 78 SAW;
@@ -66,7 +66,7 @@
 #X floatatom 116 115 5 0 0 0 - - -;
 #X obj 113 245 ctlout 109;
 #X obj 171 47 vsl 15 128 127 0 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 12300 1;
 #X floatatom 152 188 5 0 0 0 - - -;
 #X obj 176 242 ctlout 110;
 #X connect 1 0 6 0;
@@ -90,14 +90,14 @@
 #X obj 15 9 midiin;
 #X connect 1 0 0 0;
 #X restore 10 8 pd control;
-#N canvas 796 444 184 254 filter 0;
+#N canvas 796 444 184 235 filter 0;
 #X obj 10 10 cnv 15 100 200 empty empty empty 20 12 0 14 -99865 -66577
 0;
 #X obj 14 49 vsl 15 128 0 127 0 0 empty empty Freq 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 7900 1;
 #X floatatom 14 191 5 0 0 0 - - -;
 #X obj 68 48 vsl 15 128 0 127 0 0 empty empty Res 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 12700 1;
 #X floatatom 68 190 5 0 0 0 - - -;
 #X obj 13 214 ctlout 111;
 #X obj 67 213 ctlout 112;
@@ -107,4 +107,16 @@
 #X connect 4 0 6 0;
 #X coords 0 -1 1 1 100 200 1 10 10;
 #X restore 560 42 pd filter;
+#X obj 688 64 vsl 15 128 0 127 0 0 empty empty Bits 0 -9 0 10 -262144
+-1 -1 700 1;
+#X floatatom 688 205 5 0 0 0 - - -;
+#X obj 687 228 ctlout 120;
+#X obj 769 64 vsl 15 128 0 127 0 0 empty empty SampleRate 0 -9 0 10
+-262144 -1 -1 12700 1;
+#X floatatom 769 205 5 0 0 0 - - -;
+#X obj 768 228 ctlout 121;
+#X connect 4 0 5 0;
+#X connect 5 0 6 0;
+#X connect 7 0 8 0;
+#X connect 8 0 9 0;
 #X coords 0 516 1 515 85 60 0;
