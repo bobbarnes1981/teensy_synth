@@ -1,7 +1,5 @@
 #define LED 13
 
-// TODO: retro synth sounds - saw, tri, square, sin, bitcrush, noise
-
 #include <Audio.h>
 #include <Wire.h>
 #include <SPI.h>
@@ -14,15 +12,13 @@ AudioSynthWaveform       waveform1;      //xy=109,222
 AudioSynthWaveform       waveform2;      //xy=110,267
 AudioMixer4              mixer1;         //xy=321,256
 AudioFilterStateVariable filter1;        //xy=454,257
-AudioEffectBitcrusher    bitcrusher1;    //xy=568,452
 AudioEffectEnvelope      envelope1;      //xy=593,556
 AudioOutputI2S           i2s1;           //xy=823,562
 AudioConnection          patchCord1(pink1, 0, mixer1, 2);
 AudioConnection          patchCord2(waveform1, 0, mixer1, 0);
 AudioConnection          patchCord3(waveform2, 0, mixer1, 1);
 AudioConnection          patchCord4(mixer1, 0, filter1, 0);
-AudioConnection          patchCord5(filter1, 0, bitcrusher1, 0);
-AudioConnection          patchCord6(bitcrusher1, envelope1);
+AudioConnection          patchCord5(filter1, 0, envelope1, 0);
 AudioConnection          patchCord7(envelope1, 0, i2s1, 0);
 AudioConnection          patchCord8(envelope1, 0, i2s1, 1);
 AudioControlSGTL5000     sgtl5000_1;     //xy=110,173
@@ -38,6 +34,8 @@ int octave = 0;
 const float DIV127 = (1.0 / 127.0);
 
 float detuneFactor = 1;
+int bendRange = 12;
+float bendFactor = 1;
 
 short waveConvert[] = {
   WAVEFORM_SINE,
@@ -53,30 +51,34 @@ void setup() {
   usbMIDI.setHandleControlChange(handleControlChange);
   usbMIDI.setHandleNoteOff(handleNoteOff);
   usbMIDI.setHandleNoteOn(handleNoteOn);
+  usbMIDI.setHandlePitchChange(handlePitchChange);
 
   sgtl5000_1.enable();
   sgtl5000_1.volume(0.33);
 
-  waveform1.begin(WAVEFORM_SAWTOOTH);
+  waveform1.begin(WAVEFORM_SINE);
   waveform1.amplitude(0.75);
   waveform1.frequency(82.41);
   waveform1.pulseWidth(0.15);
 
-  waveform2.begin(WAVEFORM_SAWTOOTH);
+  waveform2.begin(WAVEFORM_SINE);
   waveform2.amplitude(0.75);
   waveform2.frequency(123);
   waveform2.pulseWidth(0.15);
 
   pink1.amplitude(1.0);
 
-  mixer1.gain(0, 1.0);
-  mixer1.gain(1, 1.0);
-  mixer1.gain(2, 1.0);
+  mixer1.gain(0, 0.0);
+  mixer1.gain(1, 0.0);
+  mixer1.gain(2, 0.0);
 
   envelope1.attack(0);
   envelope1.decay(0);
-  envelope1.sustain(1);
-  envelope1.release(500);
+  envelope1.sustain(0);
+  envelope1.release(0.0);
+
+  filter1.frequency(0);
+  filter1.resonance(0);
   
   pinMode(LED, OUTPUT);
 }
@@ -119,6 +121,7 @@ void handleControlChange(byte channel, byte control, byte value) {
           octave = -24;
           break;
       }
+      setOscillators(globalNote);
       break;
 
     case 104:
@@ -151,7 +154,7 @@ void handleControlChange(byte channel, byte control, byte value) {
 
     case 110:
       detuneFactor = 1 - (0.5 * (value * DIV127));
-      secondOscSet(globalNote);
+      setOscillators(globalNote);
       break;
 
     case 111:
@@ -161,14 +164,11 @@ void handleControlChange(byte channel, byte control, byte value) {
     case 112:
       filter1.resonance((4.3 * (value * DIV127)) + 0.7);
       break;
-      
-      
-    case 120:
-      bitcrusher1.bits(16 * (value * DIV127));
-      break;
-      
-    case 121:
-      bitcrusher1.sampleRate(44100 * (value * DIV127));
+
+    case 113:
+      if (value <= 12 && value > 0) {
+        bendRange = value;
+      }
       break;
   }
 }
@@ -224,8 +224,7 @@ void bufferKey(byte note, bool keyDown) {
 }
 
 void keyOn(byte note) {
-  waveform1.frequency(frequencies[note]);
-  secondOscSet(note);
+  setOscillators(note);
 
   float v = globalVelocity * DIV127;
   waveform1.amplitude(v);
@@ -239,6 +238,16 @@ void keyOff() {
   envelope1.noteOff();
 }
 
-void secondOscSet(byte note) {
-  waveform2.frequency(frequencies[note + octave] * detuneFactor);
+void setOscillators(byte note) {
+  waveform1.frequency(frequencies[note] * bendFactor);
+  waveform2.frequency(frequencies[note + octave] * detuneFactor * bendFactor);
+}
+
+void handlePitchChange(byte channel, int bend) {
+  float bend_f = bend;
+  bend_f = bend_f / 8129;
+  bend_f = bend_f * bendRange;
+  bend_f = bend_f / 12;
+  bendFactor = pow(2, bend_f);
+  setOscillators(globalNote);
 }
