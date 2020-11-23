@@ -116,33 +116,33 @@ void loop() {
 
 void handleControlChange(byte channel, byte control, byte value) {
   switch(control) {
-    case 100:
+    case 102:
       if (value < 4) {
         waveform1.begin(waveConvert[value]);
       }
       break;
 
-    case 101:
+    case 103:
       filter1.frequency(FILTER_FREQ_MAX * (value * DIV127));
       break;
 
-    case 102:
+    case 104:
       filter1.resonance(((FILTER_RES_MAX - FILTER_RES_MIN) * (value * DIV127)) + FILTER_RES_MIN);
       break;
 
-    case 103:
+    case 105:
       envelope1.attack(ADSR_ATTACK_MAX * (value * DIV127)); // milliseconds
       break;
 
-    case 104:
+    case 106:
       envelope1.decay(ADSR_DECAY_MAX * (value * DIV127)); // milliseconds
       break;
 
-    case 105:
+    case 107:
       envelope1.sustain(value * DIV127); // sustain level 0.0-1.0
       break;
 
-    case 106:
+    case 108:
       envelope1.release(ADSR_RELEASE_MAX * (value * DIV127)); // milliseconds 
       break;
   }
