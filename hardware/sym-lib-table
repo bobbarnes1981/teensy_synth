@@ -1,3 +1,4 @@
 (sym_lib_table
   (lib (name hardware)(type Legacy)(uri ${KIPRJMOD}/hardware.lib)(options "")(descr ""))
+  (lib (name hardware-rescue)(type Legacy)(uri ${KIPRJMOD}/hardware-rescue.lib)(options "")(descr ""))
 )

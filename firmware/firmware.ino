@@ -55,10 +55,18 @@ MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
 #define ADSR_DECAY_MAX 3000
 #define ADSR_RELEASE_MAX 3000
 
-short waveConvert[] = {
+short oscConvert[] = {
   WAVEFORM_SINE,
   WAVEFORM_TRIANGLE,
   WAVEFORM_SAWTOOTH,
+  WAVEFORM_PULSE
+};
+
+short lfoConvert[] = {
+  WAVEFORM_SINE,
+  WAVEFORM_TRIANGLE,
+  WAVEFORM_SAWTOOTH,
+  WAVEFORM_SAWTOOTH_REVERSE,
   WAVEFORM_PULSE
 };
 
@@ -127,7 +135,7 @@ void handleControlChange(byte channel, byte control, byte value) {
   switch(control) {
     case 102:
       if (value < 4) {
-        waveformMod1.begin(waveConvert[value]); // oscillator waveform
+        waveformMod1.begin(oscConvert[value]); // oscillator waveform
       }
       break;
 
@@ -156,8 +164,8 @@ void handleControlChange(byte channel, byte control, byte value) {
       break;
       
     case 109:
-      if (value < 4) {
-        waveform1.begin(waveConvert[value]); // LFO waveform
+      if (value < 5) {
+        waveform1.begin(lfoConvert[value]); // LFO waveform
       }
       break;
       

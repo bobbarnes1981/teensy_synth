@@ -1,11 +1,11 @@
-#N canvas 255 116 919 495 12;
+#N canvas 519 141 919 495 12;
 #X text 119 254 Second Osc?;
 #N canvas 209 177 450 300 filter 0;
 #X obj 12 54 vsl 15 128 0 127 0 0 empty empty Freq 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 12700 1;
 #X floatatom 12 190 5 0 0 0 - - -;
 #X obj 62 54 vsl 15 128 0 127 0 0 empty empty Res 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 9400 1;
 #X floatatom 62 190 5 0 0 0 - - -;
 #X obj 12 213 ctlout 103;
 #X obj 62 213 ctlout 104;
@@ -20,13 +20,13 @@
 -1 -1 0 1;
 #X floatatom 12 190 5 0 0 0 - - -;
 #X obj 59 54 vsl 15 128 0 127 0 0 empty empty Decay 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 11300 1;
 #X floatatom 59 190 5 0 0 0 - - -;
 #X obj 106 54 vsl 15 128 0 127 0 0 empty empty Sustain 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 12700 1;
 #X floatatom 106 190 5 0 0 0 - - -;
 #X obj 153 54 vsl 15 128 0 127 0 0 empty empty Release 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 3100 1;
 #X floatatom 153 190 5 0 0 0 - - -;
 #X obj 12 213 ctlout 105;
 #X obj 59 213 ctlout 106;
@@ -44,7 +44,7 @@
 #X restore 327 47 pd adsr;
 #N canvas 147 96 450 300 oscillator 0;
 #X obj 13 116 vradio 15 1 0 4 empty empty Oscillator 0 -8 0 10 -262144
--1 -1 0;
+-1 -1 2;
 #X text 36 130 TRI;
 #X text 36 115 SIN;
 #X text 36 145 SAW;
@@ -65,22 +65,23 @@
 #X coords 0 -1 1 1 100 200 1 10 10;
 #X restore 533 48 pd output;
 #N canvas 659 209 450 300 lfo 0;
-#X obj 13 116 vradio 15 1 0 4 empty empty Oscillator 0 -8 0 10 -262144
+#X obj 13 101 vradio 15 1 0 5 empty empty Oscillator 0 -8 0 10 -262144
 -1 -1 0;
-#X text 36 130 TRI;
-#X text 36 115 SIN;
-#X text 36 145 SAW;
+#X text 36 115 TRI;
+#X text 36 100 SIN;
+#X text 36 130 SAW;
 #X text 36 160 PLS;
 #X floatatom 13 189 5 0 0 0 - - -;
 #X obj 13 222 ctlout 109;
 #X obj 70 53 vsl 15 128 0 127 0 0 empty empty Amp 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 900 1;
 #X floatatom 70 189 5 0 0 0 - - -;
 #X obj 120 53 vsl 15 128 0 127 0 0 empty empty Freq 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 800 1;
 #X floatatom 120 189 5 0 0 0 - - -;
 #X obj 70 212 ctlout 110;
 #X obj 120 212 ctlout 111;
+#X text 36 146 SAWR;
 #X connect 0 0 5 0;
 #X connect 5 0 6 0;
 #X connect 7 0 8 0;

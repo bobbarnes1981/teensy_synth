@@ -19,7 +19,7 @@ U 1 1 5FB453D9
 P 8100 4250
 F 0 "J3" H 8100 3975 50  0000 C CNN
 F 1 "DIN-5_180degree" H 8100 3884 50  0000 C CNN
-F 2 "hardware:SDS-50J" H 8100 4250 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical" H 8100 4250 50  0001 C CNN
 F 3 "http://www.mouser.com/ds/2/18/40_c091_abd_e-75918.pdf" H 8100 4250 50  0001 C CNN
 	1    8100 4250
 	-1   0    0    -1  
@@ -30,7 +30,7 @@ U 1 1 5FB4610C
 P 4025 4250
 F 0 "J2" H 4025 3975 50  0000 C CNN
 F 1 "DIN-5_180degree" H 4025 3884 50  0000 C CNN
-F 2 "hardware:SDS-50J" H 4025 4250 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical" H 4025 4250 50  0001 C CNN
 F 3 "http://www.mouser.com/ds/2/18/40_c091_abd_e-75918.pdf" H 4025 4250 50  0001 C CNN
 	1    4025 4250
 	-1   0    0    -1  
@@ -578,7 +578,7 @@ U 1 1 5FB51B6F
 P 7000 1850
 F 0 "RV1" H 6931 1896 50  0000 R CNN
 F 1 "R_POT" H 6931 1805 50  0000 R CNN
-F 2 "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical_CircularHoles" H 7000 1850 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 7000 1850 50  0001 C CNN
 F 3 "~" H 7000 1850 50  0001 C CNN
 	1    7000 1850
 	1    0    0    -1  
@@ -589,7 +589,7 @@ U 1 1 5FB51FC5
 P 7600 1850
 F 0 "RV2" H 7531 1896 50  0000 R CNN
 F 1 "R_POT" H 7531 1805 50  0000 R CNN
-F 2 "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical_CircularHoles" H 7600 1850 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 7600 1850 50  0001 C CNN
 F 3 "~" H 7600 1850 50  0001 C CNN
 	1    7600 1850
 	1    0    0    -1  
@@ -660,7 +660,7 @@ U 1 1 5FBB9BC9
 P 8200 1850
 F 0 "RV3" H 8131 1896 50  0000 R CNN
 F 1 "R_POT" H 8131 1805 50  0000 R CNN
-F 2 "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical_CircularHoles" H 8200 1850 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 8200 1850 50  0001 C CNN
 F 3 "~" H 8200 1850 50  0001 C CNN
 	1    8200 1850
 	1    0    0    -1  
@@ -671,7 +671,7 @@ U 1 1 5FBB9BCF
 P 8800 1850
 F 0 "RV4" H 8731 1896 50  0000 R CNN
 F 1 "R_POT" H 8731 1805 50  0000 R CNN
-F 2 "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical_CircularHoles" H 8800 1850 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 8800 1850 50  0001 C CNN
 F 3 "~" H 8800 1850 50  0001 C CNN
 	1    8800 1850
 	1    0    0    -1  
@@ -742,7 +742,7 @@ U 1 1 5FBBED52
 P 9400 1850
 F 0 "RV5" H 9331 1896 50  0000 R CNN
 F 1 "R_POT" H 9331 1805 50  0000 R CNN
-F 2 "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical_CircularHoles" H 9400 1850 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 9400 1850 50  0001 C CNN
 F 3 "~" H 9400 1850 50  0001 C CNN
 	1    9400 1850
 	1    0    0    -1  
@@ -753,7 +753,7 @@ U 1 1 5FBBED58
 P 10000 1850
 F 0 "RV6" H 9931 1896 50  0000 R CNN
 F 1 "R_POT" H 9931 1805 50  0000 R CNN
-F 2 "Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical_CircularHoles" H 10000 1850 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 10000 1850 50  0001 C CNN
 F 3 "~" H 10000 1850 50  0001 C CNN
 	1    10000 1850
 	1    0    0    -1  
@@ -856,7 +856,7 @@ U 1 1 5FBF826F
 P 6750 5450
 F 0 "SW1" H 6750 5735 50  0000 C CNN
 F 1 "SW_Push" H 6750 5644 50  0000 C CNN
-F 2 "Button_Switch_THT:SW_PUSH-12mm" H 6750 5650 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 6750 5650 50  0001 C CNN
 F 3 "~" H 6750 5650 50  0001 C CNN
 	1    6750 5450
 	1    0    0    -1  
@@ -948,4 +948,126 @@ Wire Wire Line
 	1700 5750 1550 5750
 Wire Wire Line
 	1550 5850 1700 5850
+$Comp
+L Switch:SW_Push SW2
+U 1 1 5FBF55B0
+P 6750 5825
+F 0 "SW2" H 6750 6110 50  0000 C CNN
+F 1 "SW_Push" H 6750 6019 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 6750 6025 50  0001 C CNN
+F 3 "~" H 6750 6025 50  0001 C CNN
+	1    6750 5825
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR0133
+U 1 1 5FBF60CB
+P 6400 5825
+F 0 "#PWR0133" H 6400 5675 50  0001 C CNN
+F 1 "+3.3V" V 6415 5953 50  0000 L CNN
+F 2 "" H 6400 5825 50  0001 C CNN
+F 3 "" H 6400 5825 50  0001 C CNN
+	1    6400 5825
+	0    -1   -1   0   
+$EndComp
+Text Label 7100 5825 0    50   ~ 0
+LFO1_WAV
+Wire Wire Line
+	6400 5825 6550 5825
+Wire Wire Line
+	6950 5825 7100 5825
+Text Label 1550 6150 2    50   ~ 0
+LFO1_WAV
+Text Label 1550 5950 2    50   ~ 0
+LFO1_Amp
+Text Label 1550 6050 2    50   ~ 0
+LFO1_Freq
+Wire Wire Line
+	1550 5950 1700 5950
+Wire Wire Line
+	1550 6050 1700 6050
+Wire Wire Line
+	1550 6150 1700 6150
+$Comp
+L Device:R_POT RV7
+U 1 1 5FC14CF2
+P 9425 3075
+F 0 "RV7" H 9356 3121 50  0000 R CNN
+F 1 "R_POT" H 9356 3030 50  0000 R CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 9425 3075 50  0001 C CNN
+F 3 "~" H 9425 3075 50  0001 C CNN
+	1    9425 3075
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_POT RV8
+U 1 1 5FC14CF8
+P 10025 3075
+F 0 "RV8" H 9956 3121 50  0000 R CNN
+F 1 "R_POT" H 9956 3030 50  0000 R CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 10025 3075 50  0001 C CNN
+F 3 "~" H 10025 3075 50  0001 C CNN
+	1    10025 3075
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR0134
+U 1 1 5FC14CFE
+P 9425 3375
+F 0 "#PWR0134" H 9425 3225 50  0001 C CNN
+F 1 "+3.3V" H 9440 3548 50  0000 C CNN
+F 2 "" H 9425 3375 50  0001 C CNN
+F 3 "" H 9425 3375 50  0001 C CNN
+	1    9425 3375
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:+3.3V #PWR0135
+U 1 1 5FC14D04
+P 10025 3375
+F 0 "#PWR0135" H 10025 3225 50  0001 C CNN
+F 1 "+3.3V" H 10040 3548 50  0000 C CNN
+F 2 "" H 10025 3375 50  0001 C CNN
+F 3 "" H 10025 3375 50  0001 C CNN
+	1    10025 3375
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0136
+U 1 1 5FC14D0A
+P 9425 2725
+F 0 "#PWR0136" H 9425 2475 50  0001 C CNN
+F 1 "GND" H 9430 2552 50  0000 C CNN
+F 2 "" H 9425 2725 50  0001 C CNN
+F 3 "" H 9425 2725 50  0001 C CNN
+	1    9425 2725
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0137
+U 1 1 5FC14D10
+P 10025 2725
+F 0 "#PWR0137" H 10025 2475 50  0001 C CNN
+F 1 "GND" H 10030 2552 50  0000 C CNN
+F 2 "" H 10025 2725 50  0001 C CNN
+F 3 "" H 10025 2725 50  0001 C CNN
+	1    10025 2725
+	-1   0    0    1   
+$EndComp
+Text Label 9650 3075 0    50   ~ 0
+LFO1_Amp
+Text Label 10250 3075 0    50   ~ 0
+LFO1_Freq
+Wire Wire Line
+	9575 3075 9650 3075
+Wire Wire Line
+	9425 2725 9425 2925
+Wire Wire Line
+	9425 3375 9425 3225
+Wire Wire Line
+	10025 3375 10025 3225
+Wire Wire Line
+	10025 2925 10025 2725
+Wire Wire Line
+	10250 3075 10175 3075
 $EndSCHEMATC
