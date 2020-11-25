@@ -1,10 +1,5 @@
 #define USE_USBMIDI
 
-#define LED 13
-
-#define NOTE_MIN 23
-#define NOTE_MAX 108
-
 #include <Audio.h>
 #include <Wire.h>
 #include <SPI.h>
@@ -13,15 +8,17 @@
 
 // GUItool: begin automatically generated code
 AudioSynthWaveform       waveform1;      //xy=123,108
-AudioMixer4              mixer1;         //xy=296,157
+AudioSynthWaveformModulated waveformMod1;   //xy=219,279
+AudioMixer4              mixer1;         //xy=433,133
 AudioFilterStateVariable filter1;        //xy=443,250
 AudioEffectEnvelope      envelope1;      //xy=622,238
 AudioOutputI2S           i2s1;           //xy=790,212
-AudioConnection          patchCord1(waveform1, 0, mixer1, 0);
-AudioConnection          patchCord2(mixer1, 0, filter1, 0);
-AudioConnection          patchCord3(filter1, 0, envelope1, 0);
-AudioConnection          patchCord4(envelope1, 0, i2s1, 0);
-AudioConnection          patchCord5(envelope1, 0, i2s1, 1);
+AudioConnection          patchCord1(waveform1, 0, waveformMod1, 0);
+AudioConnection          patchCord2(waveformMod1, 0, mixer1, 0);
+AudioConnection          patchCord3(mixer1, 0, filter1, 0);
+AudioConnection          patchCord4(filter1, 0, envelope1, 0);
+AudioConnection          patchCord5(envelope1, 0, i2s1, 0);
+AudioConnection          patchCord6(envelope1, 0, i2s1, 1);
 AudioControlSGTL5000     sgtl5000_1;     //xy=693,421
 // GUItool: end automatically generated code
 
@@ -42,6 +39,13 @@ byte lastVelocity = 0;
 #ifdef USE_MIDI
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
 #endif
+
+#define LED 13
+
+#define NOTE_MIN 23
+#define NOTE_MAX 108
+
+#define LFO_FREQ_MAX 50
 
 #define FILTER_FREQ_MAX 10000
 #define FILTER_RES_MIN 0.7
@@ -83,10 +87,15 @@ void setup() {
 
   waveform1.begin(WAVEFORM_SINE);
   waveform1.pulseWidth(0.15);
+  waveform1.frequency(0);
+  waveform1.amplitude(0);
+
+  waveformMod1.begin(WAVEFORM_SINE);
 
   mixer1.gain(0, 1.0);
   mixer1.gain(1, 0.0);
   mixer1.gain(2, 0.0);
+  mixer1.gain(3, 0.0);
 
   envelope1.attack(10.5); // millis max 11880
   envelope1.decay(35);    // millis max 11880
@@ -99,7 +108,7 @@ void setup() {
   pinMode(LED, OUTPUT);
 
   // C4
-//  handleNoteOn(0x00, 71, 0xFF);
+  //handleNoteOn(0x00, 71, 0xFF);
 }
 
 void loop() {
@@ -118,32 +127,46 @@ void handleControlChange(byte channel, byte control, byte value) {
   switch(control) {
     case 102:
       if (value < 4) {
-        waveform1.begin(waveConvert[value]);
+        waveformMod1.begin(waveConvert[value]); // oscillator waveform
       }
       break;
 
     case 103:
-      filter1.frequency(FILTER_FREQ_MAX * (value * DIV127));
+      filter1.frequency(FILTER_FREQ_MAX * (value * DIV127)); // filter frequency 0 - max
       break;
 
     case 104:
-      filter1.resonance(((FILTER_RES_MAX - FILTER_RES_MIN) * (value * DIV127)) + FILTER_RES_MIN);
+      filter1.resonance(((FILTER_RES_MAX - FILTER_RES_MIN) * (value * DIV127)) + FILTER_RES_MIN); // filter resonance
       break;
 
     case 105:
-      envelope1.attack(ADSR_ATTACK_MAX * (value * DIV127)); // milliseconds
+      envelope1.attack(ADSR_ATTACK_MAX * (value * DIV127)); // ADSR attack milliseconds
       break;
 
     case 106:
-      envelope1.decay(ADSR_DECAY_MAX * (value * DIV127)); // milliseconds
+      envelope1.decay(ADSR_DECAY_MAX * (value * DIV127)); // ADSR decay milliseconds
       break;
 
     case 107:
-      envelope1.sustain(value * DIV127); // sustain level 0.0-1.0
+      envelope1.sustain(value * DIV127); // ADSR sustain sustain level 0.0-1.0
       break;
 
     case 108:
-      envelope1.release(ADSR_RELEASE_MAX * (value * DIV127)); // milliseconds 
+      envelope1.release(ADSR_RELEASE_MAX * (value * DIV127)); // ADSR release milliseconds
+      break;
+      
+    case 109:
+      if (value < 4) {
+        waveform1.begin(waveConvert[value]); // LFO waveform
+      }
+      break;
+      
+    case 110:
+      waveform1.amplitude(value * DIV127); // LFO amplitude 0.0 - 1.0
+      break;
+      
+    case 111:
+      waveform1.frequency(LFO_FREQ_MAX * (value * DIV127)); // LFO frequency 0 - max
       break;
   }
 }
@@ -197,11 +220,11 @@ void bufferDelKey(byte note) {
 }
 
 void setKeyOn(byte note) {
-  waveform1.frequency(frequencies[note]);
+  waveformMod1.frequency(frequencies[note]);
 
   float v = lastVelocity * DIV127;
-  waveform1.amplitude(v);
-
+  waveformMod1.amplitude(v);
+  
   envelope1.noteOn();
 }
 
