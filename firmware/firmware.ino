@@ -35,6 +35,10 @@ const float frequencies[128] = { 8.176, 8.662, 9.177, 9.723, 10.301, 10.913, 11.
 const float DIV127 = (1.0 / 127.0);
 
 byte lastVelocity = 0;
+bool localControlEnabled = false; // enable when connected to multiplexer
+byte multiplexAddress = 0x00;
+unsigned long lastMicros = 0;
+int lastData[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 #ifdef USE_MIDI
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
@@ -54,6 +58,31 @@ MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
 #define ADSR_ATTACK_MAX 3000
 #define ADSR_DECAY_MAX 3000
 #define ADSR_RELEASE_MAX 3000
+
+#define MULTIPLEX_MAX 0x09
+#define MULTIPLEX_S0 2
+#define MULTIPLEX_S1 3
+#define MULTIPLEX_S2 4
+#define MULTIPLEX_S3 5
+#define MULTIPLEX_IN A2
+#define MULTIPLEX_MICROS 1000
+#define MULTIPLEX_CHANGE 10
+
+#define CC_OSC1_WAVE 102
+#define CC_FILTER_FREQ 103
+#define CC_FILTER_RES 104
+#define CC_ADSR_A 105
+#define CC_ADSR_D 106
+#define CC_ADSR_S 107
+#define CC_ADSR_R 108
+#define CC_LFO1_WAVE 109
+#define CC_LFO1_AMP 110
+#define CC_LFO1_FREQ 111
+
+#define CC_CHANNEL_ALLSOUNDOFF 120
+#define CC_CHANNEL_RESETALLCONTROLLERS 121
+#define CC_CHANNEL_LOCALCONTROL 122
+#define CC_CHANNEL_ALLNOTESOFF 123
 
 short oscConvert[] = {
   WAVEFORM_SINE,
@@ -115,6 +144,14 @@ void setup() {
   
   pinMode(LED, OUTPUT);
 
+  pinMode(MULTIPLEX_S0, OUTPUT);
+  pinMode(MULTIPLEX_S1, OUTPUT);
+  pinMode(MULTIPLEX_S2, OUTPUT);
+  pinMode(MULTIPLEX_S3, OUTPUT);
+  pinMode(MULTIPLEX_IN, INPUT);
+
+  // TODO: pinmodes for audio pcb?
+
   // C4
   //handleNoteOn(0x00, 71, 0xFF);
 }
@@ -129,52 +166,100 @@ void loop() {
   #ifdef USE_MIDI
   MIDI.read();
   #endif
+
+  // possibly some sort of display?
+
+  if (localControlEnabled) {
+    unsigned long currentMicros = micros();
+    if (currentMicros - lastMicros > MULTIPLEX_MICROS) {
+      lastMicros = currentMicros;
+      localControl();
+    }
+  }
 }
 
 void handleControlChange(byte channel, byte control, byte value) {
   switch(control) {
-    case 102:
+
+    // custom Oscillator Waveform message
+    
+    case CC_OSC1_WAVE:
       if (value < 4) {
         waveformMod1.begin(oscConvert[value]); // oscillator waveform
       }
       break;
 
-    case 103:
+    // custom Filter messages
+
+    case CC_FILTER_FREQ:
       filter1.frequency(FILTER_FREQ_MAX * (value * DIV127)); // filter frequency 0 - max
       break;
 
-    case 104:
+    case CC_FILTER_RES:
       filter1.resonance(((FILTER_RES_MAX - FILTER_RES_MIN) * (value * DIV127)) + FILTER_RES_MIN); // filter resonance
       break;
 
-    case 105:
+    // custom ADSR messages
+
+    case CC_ADSR_A:
       envelope1.attack(ADSR_ATTACK_MAX * (value * DIV127)); // ADSR attack milliseconds
       break;
 
-    case 106:
+    case CC_ADSR_D:
       envelope1.decay(ADSR_DECAY_MAX * (value * DIV127)); // ADSR decay milliseconds
       break;
 
-    case 107:
+    case CC_ADSR_S:
       envelope1.sustain(value * DIV127); // ADSR sustain sustain level 0.0-1.0
       break;
 
-    case 108:
+    case CC_ADSR_R:
       envelope1.release(ADSR_RELEASE_MAX * (value * DIV127)); // ADSR release milliseconds
       break;
+
+    // custom LFO messages
       
-    case 109:
+    case CC_LFO1_WAVE:
       if (value < 5) {
         waveform1.begin(lfoConvert[value]); // LFO waveform
       }
       break;
       
-    case 110:
+    case CC_LFO1_AMP:
       waveform1.amplitude(value * DIV127); // LFO amplitude 0.0 - 1.0
       break;
       
-    case 111:
+    case CC_LFO1_FREQ:
       waveform1.frequency(LFO_FREQ_MAX * (value * DIV127)); // LFO frequency 0 - max
+      break;
+
+    // channel messages
+
+    case CC_CHANNEL_ALLSOUNDOFF:
+      // All Sound Off. When All Sound Off is received all oscillators will turn off, and their volume envelopes are set to zero as soon as possible.
+      allNotesOff();
+      break;
+
+    case CC_CHANNEL_RESETALLCONTROLLERS:
+      // Reset All Controllers. When Reset All Controllers is received, all controller values are reset to their default values.
+      break;
+
+    case CC_CHANNEL_LOCALCONTROL:
+      // Local Control. When Local Control is Off, all devices on a given channel will respond only to data received over MIDI. Played data, etc. will be ignored. Local Control On restores the functions of the normal controllers.
+      switch (value) {
+        case 0:
+          localControlEnabled = false;
+          break;
+
+        case 127:
+          localControlEnabled = true;
+          break;
+      }
+      break;
+
+    case CC_CHANNEL_ALLNOTESOFF:
+      // All Notes Off. When an All Notes Off is received, all oscillators will turn off.
+      allNotesOff();
       break;
   }
 }
@@ -189,6 +274,14 @@ void handleNoteOn(byte channel, byte note, byte velocity) {
   if (note > NOTE_MIN && note < NOTE_MAX) {
     bufferAddKey(note, velocity);
   }
+}
+
+void bufferReset() {
+  for (int i = 0; i < BUFFER_SIZE; i++) {
+    keyBuffer[i] = 255;
+  }
+
+  keyBufferPointer = 0;
 }
 
 void bufferAddKey(byte note, byte velocity) {
@@ -242,4 +335,87 @@ void setKeyOff() {
 
 void handlePitchChange(byte channel, int bend) {
   // not handled
+}
+
+void allNotesOff() {
+  bufferReset();
+  setKeyOff();
+}
+
+void localControl() {
+  // read multiplexer data
+  int data = analogRead(MULTIPLEX_IN);
+
+  // process multiplexer data
+
+  data = data >> 3; // change to 0-127 insetad of 0-1023
+
+  // only process data if significant change occurred
+  if (lastData[multiplexAddress] + MULTIPLEX_CHANGE < data || lastData[multiplexAddress] - MULTIPLEX_CHANGE > data) {
+    lastData[multiplexAddress] = data;
+    switch (multiplexAddress) {
+      
+      case 0:
+        // 0x0 filter freq
+        handleControlChange(0x00, CC_FILTER_FREQ, data);
+        break;
+        
+      case 1:
+        // 0x1 filter res
+        handleControlChange(0x00, CC_FILTER_RES, data);
+        break;
+        
+      case 2:
+        // 0x2 adsr attack
+        handleControlChange(0x00, CC_ADSR_A, data);
+        break;
+        
+      case 3:
+        // 0x3 adsr decay
+        handleControlChange(0x00, CC_ADSR_D, data);
+        break;
+        
+      case 4:
+        // 0x4 adsr sustain
+        handleControlChange(0x00, CC_ADSR_S, data);
+        break;
+        
+      case 5:
+        // 0x5 adsr release
+        handleControlChange(0x00, CC_ADSR_R, data);
+        break;
+        
+      case 6:
+        // 0x6 osc1 waveform button
+        // debounce
+        break;
+        
+      case 7:
+        // 0x7 lfo1 amp
+        handleControlChange(0x00, CC_LFO1_AMP, data);
+        break;
+        
+      case 8:
+        // 0x8 lfo1 freq
+        handleControlChange(0x00, CC_LFO1_FREQ, data);
+        break;
+        
+      case 9:
+        // 0x9 lfo1 waveform button
+        // debounce
+        break;
+    }
+  }
+  
+  // update multiplexer address
+  multiplexAddress += 1;
+  if (multiplexAddress > MULTIPLEX_MAX) {
+    multiplexAddress = 0x00;
+  }
+
+  // output multiplexer address
+  digitalWrite(MULTIPLEX_S0, multiplexAddress & 0x01);
+  digitalWrite(MULTIPLEX_S1, multiplexAddress & 0x02);
+  digitalWrite(MULTIPLEX_S2, multiplexAddress & 0x04);
+  digitalWrite(MULTIPLEX_S3, multiplexAddress & 0x08);
 }
