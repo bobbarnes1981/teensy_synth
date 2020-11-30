@@ -868,7 +868,7 @@ OSC1_WAV
 Wire Wire Line
 	6400 5450 6550 5450
 Wire Wire Line
-	6950 5450 7100 5450
+	6950 5450 7000 5450
 $Comp
 L BOB-09056:BOB-09056 TB1
 U 1 1 5FC108A3
@@ -964,7 +964,7 @@ LFO1_WAV
 Wire Wire Line
 	6400 5825 6550 5825
 Wire Wire Line
-	6950 5825 7100 5825
+	6950 5825 7000 5825
 Text Label 1550 6150 2    50   ~ 0
 LFO1_WAV
 Text Label 1550 5950 2    50   ~ 0
@@ -1092,4 +1092,44 @@ F 3 "http://www.onsemi.com/pub/Collateral/HCPL2731-D.pdf" H 5590 3900 50  0001 C
 	1    5300 4200
 	1    0    0    -1  
 $EndComp
+Wire Wire Line
+	7000 5450 7000 5225
+Wire Wire Line
+	7000 5225 7100 5225
+Connection ~ 7000 5450
+Wire Wire Line
+	7000 5450 7100 5450
+Wire Wire Line
+	7000 5825 7000 5625
+Wire Wire Line
+	7000 5625 7075 5625
+Connection ~ 7000 5825
+Wire Wire Line
+	7000 5825 7100 5825
+$Comp
+L power:GND #PWR?
+U 1 1 5FC7A329
+P 7550 5225
+F 0 "#PWR?" H 7550 4975 50  0001 C CNN
+F 1 "GND" V 7555 5097 50  0000 R CNN
+F 2 "" H 7550 5225 50  0001 C CNN
+F 3 "" H 7550 5225 50  0001 C CNN
+	1    7550 5225
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5FC7A6DB
+P 7550 5625
+F 0 "#PWR?" H 7550 5375 50  0001 C CNN
+F 1 "GND" V 7555 5497 50  0000 R CNN
+F 2 "" H 7550 5625 50  0001 C CNN
+F 3 "" H 7550 5625 50  0001 C CNN
+	1    7550 5625
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	7400 5225 7550 5225
+Wire Wire Line
+	7375 5625 7550 5625
 $EndSCHEMATC
