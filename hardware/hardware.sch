@@ -48,17 +48,6 @@ F 4 "LCD" H 975 3250 50  0000 R CNN "Name"
 	1    0    0    -1  
 $EndComp
 $Comp
-L Isolator:6N139 U3
-U 1 1 5FB479F7
-P 5300 4200
-F 0 "U3" H 5300 4667 50  0000 C CNN
-F 1 "6N139" H 5300 4576 50  0000 C CNN
-F 2 "Package_DIP:DIP-8_W7.62mm_Socket_LongPads" H 5590 3900 50  0001 C CNN
-F 3 "http://www.onsemi.com/pub/Collateral/HCPL2731-D.pdf" H 5590 3900 50  0001 C CNN
-	1    5300 4200
-	1    0    0    -1  
-$EndComp
-$Comp
 L hardware:Teensy3.2 U1
 U 1 1 5FB4EEE5
 P 2800 2025
@@ -879,7 +868,7 @@ OSC1_WAV
 Wire Wire Line
 	6400 5450 6550 5450
 Wire Wire Line
-	6950 5450 7100 5450
+	6950 5450 7000 5450
 $Comp
 L BOB-09056:BOB-09056 TB1
 U 1 1 5FC108A3
@@ -975,7 +964,7 @@ LFO1_WAV
 Wire Wire Line
 	6400 5825 6550 5825
 Wire Wire Line
-	6950 5825 7100 5825
+	6950 5825 7000 5825
 Text Label 1550 6150 2    50   ~ 0
 LFO1_WAV
 Text Label 1550 5950 2    50   ~ 0
@@ -1070,4 +1059,77 @@ Wire Wire Line
 	10025 2925 10025 2725
 Wire Wire Line
 	10250 3075 10175 3075
+$Comp
+L Device:R R?
+U 1 1 5FC596A5
+P 7250 5225
+F 0 "R?" V 7043 5225 50  0000 C CNN
+F 1 "10k" V 7134 5225 50  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" V 7180 5225 50  0001 C CNN
+F 3 "~" H 7250 5225 50  0001 C CNN
+	1    7250 5225
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5FC59B0F
+P 7225 5625
+F 0 "R?" V 7018 5625 50  0000 C CNN
+F 1 "10k" V 7109 5625 50  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" V 7155 5625 50  0001 C CNN
+F 3 "~" H 7225 5625 50  0001 C CNN
+	1    7225 5625
+	0    1    1    0   
+$EndComp
+$Comp
+L Isolator:6N138 U3
+U 1 1 5FC5ACDD
+P 5300 4200
+F 0 "U3" H 5300 4667 50  0000 C CNN
+F 1 "6N138" H 5300 4576 50  0000 C CNN
+F 2 "" H 5590 3900 50  0001 C CNN
+F 3 "http://www.onsemi.com/pub/Collateral/HCPL2731-D.pdf" H 5590 3900 50  0001 C CNN
+	1    5300 4200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7000 5450 7000 5225
+Wire Wire Line
+	7000 5225 7100 5225
+Connection ~ 7000 5450
+Wire Wire Line
+	7000 5450 7100 5450
+Wire Wire Line
+	7000 5825 7000 5625
+Wire Wire Line
+	7000 5625 7075 5625
+Connection ~ 7000 5825
+Wire Wire Line
+	7000 5825 7100 5825
+$Comp
+L power:GND #PWR?
+U 1 1 5FC7A329
+P 7550 5225
+F 0 "#PWR?" H 7550 4975 50  0001 C CNN
+F 1 "GND" V 7555 5097 50  0000 R CNN
+F 2 "" H 7550 5225 50  0001 C CNN
+F 3 "" H 7550 5225 50  0001 C CNN
+	1    7550 5225
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5FC7A6DB
+P 7550 5625
+F 0 "#PWR?" H 7550 5375 50  0001 C CNN
+F 1 "GND" V 7555 5497 50  0000 R CNN
+F 2 "" H 7550 5625 50  0001 C CNN
+F 3 "" H 7550 5625 50  0001 C CNN
+	1    7550 5625
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	7400 5225 7550 5225
+Wire Wire Line
+	7375 5625 7550 5625
 $EndSCHEMATC
