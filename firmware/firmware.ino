@@ -7,19 +7,21 @@
 #include <SerialFlash.h>
 
 // GUItool: begin automatically generated code
-AudioSynthWaveform       waveform1;      //xy=123,108
-AudioSynthWaveformModulated waveformMod1;   //xy=219,279
-AudioMixer4              mixer1;         //xy=433,133
-AudioFilterStateVariable filter1;        //xy=443,250
-AudioEffectEnvelope      envelope1;      //xy=622,238
-AudioOutputI2S           i2s1;           //xy=790,212
+AudioSynthWaveform       waveform1;      //xy=343,231
+AudioSynthNoiseWhite     noise1;         //xy=349,170
+AudioSynthWaveformModulated waveformMod1;   //xy=439,402
+AudioMixer4              mixer1;         //xy=653,256
+AudioFilterStateVariable filter1;        //xy=663,373
+AudioEffectEnvelope      envelope1;      //xy=842,361
+AudioOutputI2S           i2s1;           //xy=1010,335
 AudioConnection          patchCord1(waveform1, 0, waveformMod1, 0);
-AudioConnection          patchCord2(waveformMod1, 0, mixer1, 0);
-AudioConnection          patchCord3(mixer1, 0, filter1, 0);
-AudioConnection          patchCord4(filter1, 0, envelope1, 0);
-AudioConnection          patchCord5(envelope1, 0, i2s1, 0);
-AudioConnection          patchCord6(envelope1, 0, i2s1, 1);
-AudioControlSGTL5000     sgtl5000_1;     //xy=693,421
+AudioConnection          patchCord2(noise1, 0, mixer1, 1);
+AudioConnection          patchCord3(waveformMod1, 0, mixer1, 0);
+AudioConnection          patchCord4(mixer1, 0, filter1, 0);
+AudioConnection          patchCord5(filter1, 0, envelope1, 0);
+AudioConnection          patchCord6(envelope1, 0, i2s1, 0);
+AudioConnection          patchCord7(envelope1, 0, i2s1, 1);
+AudioControlSGTL5000     sgtl5000_1;     //xy=913,544
 // GUItool: end automatically generated code
 
 #ifdef USE_MIDI
@@ -186,6 +188,12 @@ void handleControlChange(byte channel, byte control, byte value) {
     case CC_OSC1_WAVE:
       if (value < 4) {
         waveformMod1.begin(oscConvert[value]); // oscillator waveform
+        mixer1.gain(0, 1.0);
+        mixer1.gain(1, 0.0);
+      }
+      if (value == 4) {
+        mixer1.gain(0, 0.0);
+        mixer1.gain(1, 1.0);
       }
       break;
 
@@ -325,6 +333,7 @@ void setKeyOn(byte note) {
 
   float v = lastVelocity * DIV127;
   waveformMod1.amplitude(v);
+  noise1.amplitude(v);
   
   envelope1.noteOn();
 }
