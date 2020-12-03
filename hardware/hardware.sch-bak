@@ -413,13 +413,13 @@ Wire Wire Line
 Wire Wire Line
 	5800 3600 5800 3525
 Text Label 3525 2425 0    50   ~ 0
-RGB_R
+MULT_SIG
 Text Label 3525 2325 0    50   ~ 0
-RGB_G
+RGB_R
 Text Label 3525 2025 0    50   ~ 0
-RGB_B
+RGB_G
 Text Label 3525 1925 0    50   ~ 0
-A7
+RGB_B
 Wire Wire Line
 	3300 1925 3525 1925
 Wire Wire Line
@@ -695,7 +695,7 @@ Wire Wire Line
 Wire Wire Line
 	10225 1850 10150 1850
 Text Label 1550 6950 2    50   ~ 0
-A2
+MULT_SIG
 Wire Wire Line
 	1550 6950 1700 6950
 Text Label 1550 4750 2    50   ~ 0

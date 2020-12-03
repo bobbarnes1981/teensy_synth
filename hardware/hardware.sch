@@ -415,7 +415,7 @@ Wire Wire Line
 Text Label 3525 2425 0    50   ~ 0
 MULT_SIG
 Text Label 3525 2325 0    50   ~ 0
-RGB_R
+A3
 Text Label 3525 2025 0    50   ~ 0
 RGB_G
 Text Label 3525 1925 0    50   ~ 0
@@ -435,9 +435,9 @@ MULT_S1
 Text Label 2125 1925 2    50   ~ 0
 MULT_S2
 Text Label 2125 2025 2    50   ~ 0
-MULT_S3
+RGB_R
 Text Label 2125 2325 2    50   ~ 0
-D8
+MULT_S3
 Wire Wire Line
 	2125 1725 2300 1725
 Wire Wire Line
