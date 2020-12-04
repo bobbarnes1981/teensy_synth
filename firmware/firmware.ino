@@ -42,6 +42,9 @@ byte multiplexAddress = 0x00;
 unsigned long lastMicros = 0;
 int lastData[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
+int lfoIndex = 0;
+int oscIndex = 0;
+
 #ifdef USE_MIDI
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
 #endif
@@ -357,11 +360,11 @@ void localControl() {
 
   // process multiplexer data
 
-  data = data >> 3; // change to 0-127 insetad of 0-1023
-
   // only process data if significant change occurred
   if (lastData[multiplexAddress] + MULTIPLEX_CHANGE < data || lastData[multiplexAddress] - MULTIPLEX_CHANGE > data) {
-    lastData[multiplexAddress] = data;
+    
+    data = data >> 3; // change to 0-127 insetad of 0-1023
+  
     switch (multiplexAddress) {
       
       case 0:
@@ -396,7 +399,13 @@ void localControl() {
         
       case 6:
         // 0x6 osc1 waveform button
-        // debounce
+        if (data > 64 && lastData[multiplexAddress] < 256) {
+          oscIndex++;
+          if (oscIndex > 4) {
+            oscIndex = 0;
+          }
+          handleControlChange(0x00, CC_OSC1_WAVE, oscIndex);
+        }
         break;
         
       case 7:
@@ -411,9 +420,17 @@ void localControl() {
         
       case 9:
         // 0x9 lfo1 waveform button
-        // debounce
+        if (data > 64 && lastData[multiplexAddress] < 256) {
+          lfoIndex++;
+          if (lfoIndex > 4) {
+            lfoIndex = 0;
+          }
+          handleControlChange(0x00, CC_LFO1_WAVE, lfoIndex);
+        }
         break;
     }
+    
+    lastData[multiplexAddress] = data << 3;
   }
   
   // update multiplexer address
