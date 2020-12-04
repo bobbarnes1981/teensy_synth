@@ -37,7 +37,7 @@ const float frequencies[128] = { 8.176, 8.662, 9.177, 9.723, 10.301, 10.913, 11.
 const float DIV127 = (1.0 / 127.0);
 
 byte lastVelocity = 0;
-bool localControlEnabled = false; // enable when connected to multiplexer
+bool localControlEnabled = true;
 byte multiplexAddress = 0x00;
 unsigned long lastMicros = 0;
 int lastData[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
