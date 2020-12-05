@@ -8,13 +8,13 @@
 #include <SerialFlash.h>
 
 // GUItool: begin automatically generated code
-AudioSynthWaveform       waveform1;      //xy=343,231
-AudioSynthNoiseWhite     noise1;         //xy=349,170
+AudioSynthWaveform       waveform1;         //xy=343,231
+AudioSynthNoiseWhite     noise1;            //xy=349,170
 AudioSynthWaveformModulated waveformMod1;   //xy=439,402
-AudioMixer4              mixer1;         //xy=653,256
-AudioFilterStateVariable filter1;        //xy=663,373
-AudioEffectEnvelope      envelope1;      //xy=842,361
-AudioOutputI2S           i2s1;           //xy=1010,335
+AudioMixer4              mixer1;            //xy=653,256
+AudioFilterStateVariable filter1;           //xy=663,373
+AudioEffectEnvelope      envelope1;         //xy=842,361
+AudioOutputI2S           i2s1;              //xy=1010,335
 AudioConnection          patchCord1(waveform1, 0, waveformMod1, 0);
 AudioConnection          patchCord2(noise1, 0, mixer1, 1);
 AudioConnection          patchCord3(waveformMod1, 0, mixer1, 0);
@@ -22,7 +22,7 @@ AudioConnection          patchCord4(mixer1, 0, filter1, 0);
 AudioConnection          patchCord5(filter1, 0, envelope1, 0);
 AudioConnection          patchCord6(envelope1, 0, i2s1, 0);
 AudioConnection          patchCord7(envelope1, 0, i2s1, 1);
-AudioControlSGTL5000     sgtl5000_1;     //xy=913,544
+AudioControlSGTL5000     sgtl5000_1;        //xy=913,544
 // GUItool: end automatically generated code
 
 #ifdef USE_MIDI
@@ -93,6 +93,32 @@ MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
 #define CC_CHANNEL_RESETALLCONTROLLERS 121
 #define CC_CHANNEL_LOCALCONTROL 122
 #define CC_CHANNEL_ALLNOTESOFF 123
+
+#if defined(PCB_0V3) || defined(PCB_0V4) 
+#define MUX_FILTER_FREQ 0
+#define MUX_FILTER_RES 1
+#define MUX_ADSR_A 2
+#define MUX_ADSR_D 3
+#define MUX_ADSR_S 4
+#define MUX_ADSR_R 5
+#define MUX_OSC1_WAVE 6
+#define MUX_LFO1_AMP 7
+#define MUX_LFO1_FREQ 8
+#define MUX_LFO1_WAVE 9
+#endif
+#if defined(PCB_0V5)
+#define MUX_FILTER_FREQ 3
+#define MUX_FILTER_RES 2
+#define MUX_ADSR_A 4
+#define MUX_ADSR_D 6
+#define MUX_ADSR_S 9
+#define MUX_ADSR_R 8
+#define MUX_OSC1_WAVE 1
+#define MUX_LFO1_AMP 5
+#define MUX_LFO1_FREQ 7
+#define MUX_LFO1_WAVE 0
+#endif
+
 
 short oscConvert[] = {
   WAVEFORM_SINE,
@@ -371,39 +397,33 @@ void localControl() {
     data = data >> 3; // change to 0-127 insetad of 0-1023
   
     switch (multiplexAddress) {
-      
-      case 0:
-        // 0x0 filter freq
+ 
+       case MUX_FILTER_FREQ:
         handleControlChange(0x00, CC_FILTER_FREQ, data);
         break;
         
-      case 1:
-        // 0x1 filter res
+      case MUX_FILTER_RES:
         handleControlChange(0x00, CC_FILTER_RES, data);
         break;
         
-      case 2:
-        // 0x2 adsr attack
+      case MUX_ADSR_A:
         handleControlChange(0x00, CC_ADSR_A, data);
         break;
         
-      case 3:
-        // 0x3 adsr decay
+      case MUX_ADSR_D:
         handleControlChange(0x00, CC_ADSR_D, data);
         break;
         
-      case 4:
-        // 0x4 adsr sustain
+      case MUX_ADSR_S:
         handleControlChange(0x00, CC_ADSR_S, data);
         break;
         
-      case 5:
-        // 0x5 adsr release
+      case MUX_ADSR_R:
         handleControlChange(0x00, CC_ADSR_R, data);
         break;
         
-      case 6:
-        // 0x6 osc1 waveform button
+      case MUX_OSC1_WAVE:
+#if defined(PCB_0V3) || defined(PCB_0V4) 
         if (data > 64 && lastData[multiplexAddress] < 256) {
           oscIndex++;
           if (oscIndex > 4) {
@@ -411,20 +431,22 @@ void localControl() {
           }
           handleControlChange(0x00, CC_OSC1_WAVE, oscIndex);
         }
+#endif
+#if defined(PCB_0V5)
+        handleControlChange(0x00, CC_OSC1_WAVE, map(data, 0, 127, 0, 4));
+#endif
         break;
         
-      case 7:
-        // 0x7 lfo1 amp
+      case MUX_LFO1_AMP:
         handleControlChange(0x00, CC_LFO1_AMP, data);
         break;
         
-      case 8:
-        // 0x8 lfo1 freq
+      case MUX_LFO1_FREQ:
         handleControlChange(0x00, CC_LFO1_FREQ, data);
         break;
         
-      case 9:
-        // 0x9 lfo1 waveform button
+      case MUX_LFO1_WAVE:
+#if defined(PCB_0V3) || defined(PCB_0V4) 
         if (data > 64 && lastData[multiplexAddress] < 256) {
           lfoIndex++;
           if (lfoIndex > 4) {
@@ -432,6 +454,10 @@ void localControl() {
           }
           handleControlChange(0x00, CC_LFO1_WAVE, lfoIndex);
         }
+#endif
+#if defined(PCB_0V5)
+        handleControlChange(0x00, CC_LFO1_WAVE, map(data, 0, 127, 0, 4));
+#endif
         break;
     }
     
