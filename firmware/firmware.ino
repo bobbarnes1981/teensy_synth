@@ -108,15 +108,15 @@ MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
 #endif
 #if defined(PCB_0V5)
 #define MUX_FILTER_FREQ 3
-#define MUX_FILTER_RES 2
-#define MUX_ADSR_A 4
-#define MUX_ADSR_D 6
-#define MUX_ADSR_S 9
-#define MUX_ADSR_R 8
-#define MUX_OSC1_WAVE 1
-#define MUX_LFO1_AMP 5
+#define MUX_FILTER_RES 4
+#define MUX_ADSR_A 2
+#define MUX_ADSR_D 1
+#define MUX_ADSR_S 0
+#define MUX_ADSR_R 6
+#define MUX_OSC1_WAVE 5
+#define MUX_LFO1_AMP 8
 #define MUX_LFO1_FREQ 7
-#define MUX_LFO1_WAVE 0
+#define MUX_LFO1_WAVE 9
 #endif
 
 
