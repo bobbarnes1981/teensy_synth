@@ -1,5 +1,5 @@
 #define USE_USBMIDI
-#define PCB_0V4
+#define PCB_0V5
 
 #include <Audio.h>
 #include <Wire.h>
