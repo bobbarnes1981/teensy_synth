@@ -39,7 +39,24 @@ const float DIV127 = (1.0 / 127.0);
 bool localControlEnabled = true;
 byte multiplexAddress = 0x00;
 unsigned long lastMicros = 0;
-int lastData[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+int lastData[] = {
+  -MULTIPLEX_CHANGE,
+  -MULTIPLEX_CHANGE,
+  -MULTIPLEX_CHANGE,
+  -MULTIPLEX_CHANGE,
+  -MULTIPLEX_CHANGE,
+  -MULTIPLEX_CHANGE,
+  -MULTIPLEX_CHANGE,
+  -MULTIPLEX_CHANGE,
+  -MULTIPLEX_CHANGE,
+  -MULTIPLEX_CHANGE,
+  -MULTIPLEX_CHANGE,
+  -MULTIPLEX_CHANGE,
+  -MULTIPLEX_CHANGE,
+  -MULTIPLEX_CHANGE,
+  -MULTIPLEX_CHANGE,
+  -MULTIPLEX_CHANGE
+};
 
 int lfoIndex = 0;
 int oscIndex = 0;
