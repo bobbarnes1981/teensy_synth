@@ -119,6 +119,9 @@ MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
 #define MUX_LFO1_WAVE 9
 #endif
 
+#define RGB_R 5
+#define RGB_G 20
+#define RGB_B 21
 
 short oscConvert[] = {
   WAVEFORM_SINE,
@@ -193,7 +196,22 @@ void setup() {
 }
 
 void loop() {
-  digitalWrite(LED, millis() % 1000 < 50);
+  int m = millis() % 1000;
+  digitalWrite(LED, m < 50);
+
+  int r = 0;
+  int g = 0;
+  int b = 0;
+  if(m <= 333) {
+    r = 64;
+  } else if (m <= 666) {
+    g = 64;
+  } else {
+    b = 64;
+  }
+  analogWrite(RGB_R, r);
+  analogWrite(RGB_G, g);
+  analogWrite(RGB_B, b);
 
   #ifdef USE_USBMIDI
   usbMIDI.read();
