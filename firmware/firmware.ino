@@ -196,22 +196,14 @@ void setup() {
 }
 
 void loop() {
-  int m = millis() % 1000;
-  digitalWrite(LED, m < 50);
+  unsigned long currentMillis = millis();
 
-  int r = 0;
-  int g = 0;
-  int b = 0;
-  if(m <= 333) {
-    r = 64;
-  } else if (m <= 666) {
-    g = 64;
-  } else {
-    b = 64;
-  }
-  analogWrite(RGB_R, r);
-  analogWrite(RGB_G, g);
-  analogWrite(RGB_B, b);
+  digitalWrite(LED, currentMillis % 1000 < 50);
+
+  int m = currentMillis % 3000;
+  analogWrite(RGB_R, m > 0 && m < 50 ? 64 : 0);
+  analogWrite(RGB_G, m > 1000 && m < 1050 ? 64 : 0);
+  analogWrite(RGB_B, m > 2000 && m < 2050 ? 64 : 0);
 
   #ifdef USE_USBMIDI
   usbMIDI.read();
