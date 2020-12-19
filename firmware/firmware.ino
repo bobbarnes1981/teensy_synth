@@ -1,5 +1,4 @@
-#define USE_USBMIDI
-#define PCB_0V5
+#include "config.h"
 
 #include <Audio.h>
 #include <Wire.h>
@@ -7,27 +6,27 @@
 #include <SD.h>
 #include <SerialFlash.h>
 
-// GUItool: begin automatically generated code
-AudioSynthWaveform       waveform1;         //xy=343,231
-AudioSynthNoiseWhite     noise1;            //xy=349,170
-AudioSynthWaveformModulated waveformMod1;   //xy=439,402
-AudioMixer4              mixer1;            //xy=653,256
-AudioFilterStateVariable filter1;           //xy=663,373
-AudioEffectEnvelope      envelope1;         //xy=842,361
-AudioOutputI2S           i2s1;              //xy=1010,335
-AudioConnection          patchCord1(waveform1, 0, waveformMod1, 0);
-AudioConnection          patchCord2(noise1, 0, mixer1, 1);
-AudioConnection          patchCord3(waveformMod1, 0, mixer1, 0);
-AudioConnection          patchCord4(mixer1, 0, filter1, 0);
-AudioConnection          patchCord5(filter1, 0, envelope1, 0);
-AudioConnection          patchCord6(envelope1, 0, i2s1, 0);
-AudioConnection          patchCord7(envelope1, 0, i2s1, 1);
-AudioControlSGTL5000     sgtl5000_1;        //xy=913,544
-// GUItool: end automatically generated code
-
 #ifdef USE_MIDI
 #include <MIDI.h>
 #endif
+
+// GUItool: begin automatically generated code
+AudioSynthWaveform          waveform1;         //xy=343,231
+AudioSynthNoiseWhite        noise1;            //xy=349,170
+AudioSynthWaveformModulated waveformMod1;       //xy=439,402
+AudioMixer4                 mixer1;            //xy=653,256
+AudioFilterStateVariable    filter1;           //xy=663,373
+AudioEffectEnvelope         envelope1;         //xy=842,361
+AudioOutputI2S              i2s1;              //xy=1010,335
+AudioConnection             patchCord1(waveform1, 0, waveformMod1, 0);
+AudioConnection             patchCord2(noise1, 0, mixer1, 1);
+AudioConnection             patchCord3(waveformMod1, 0, mixer1, 0);
+AudioConnection             patchCord4(mixer1, 0, filter1, 0);
+AudioConnection             patchCord5(filter1, 0, envelope1, 0);
+AudioConnection             patchCord6(envelope1, 0, i2s1, 0);
+AudioConnection             patchCord7(envelope1, 0, i2s1, 1);
+AudioControlSGTL5000        sgtl5000_1;        //xy=913,544
+// GUItool: end automatically generated code
 
 const byte BUFFER_SIZE = 8;
 static byte keyBuffer[BUFFER_SIZE];
@@ -48,80 +47,6 @@ int oscIndex = 0;
 #ifdef USE_MIDI
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
 #endif
-
-#define LED 13
-
-#define NOTE_MIN 23
-#define NOTE_MAX 108
-
-#define LFO_FREQ_MAX 50
-
-#define FILTER_FREQ_MAX 10000
-#define FILTER_RES_MIN 0.7
-#define FILTER_RES_MAX 5.0
-
-#define ADSR_ATTACK_MAX 3000
-#define ADSR_DECAY_MAX 3000
-#define ADSR_RELEASE_MAX 3000
-
-#define MULTIPLEX_MAX 0x09
-#define MULTIPLEX_S0 2
-#define MULTIPLEX_S1 3
-#define MULTIPLEX_S2 4
-#if defined(PCB_0V3) || defined(PCB_0V4) 
-#define MULTIPLEX_S3 5
-#endif
-#if defined(PCB_0V5)
-#define MULTIPLEX_S3 8
-#endif
-#define MULTIPLEX_IN A2
-#define MULTIPLEX_MICROS 1000
-#define MULTIPLEX_CHANGE 5
-
-#define CC_OSC1_WAVE 102
-#define CC_FILTER_FREQ 103
-#define CC_FILTER_RES 104
-#define CC_ADSR_A 105
-#define CC_ADSR_D 106
-#define CC_ADSR_S 107
-#define CC_ADSR_R 108
-#define CC_LFO1_WAVE 109
-#define CC_LFO1_AMP 110
-#define CC_LFO1_FREQ 111
-
-#define CC_CHANNEL_ALLSOUNDOFF 120
-#define CC_CHANNEL_RESETALLCONTROLLERS 121
-#define CC_CHANNEL_LOCALCONTROL 122
-#define CC_CHANNEL_ALLNOTESOFF 123
-
-#if defined(PCB_0V3) || defined(PCB_0V4) 
-#define MUX_FILTER_FREQ 0
-#define MUX_FILTER_RES 1
-#define MUX_ADSR_A 2
-#define MUX_ADSR_D 3
-#define MUX_ADSR_S 4
-#define MUX_ADSR_R 5
-#define MUX_OSC1_WAVE 6
-#define MUX_LFO1_AMP 7
-#define MUX_LFO1_FREQ 8
-#define MUX_LFO1_WAVE 9
-#endif
-#if defined(PCB_0V5)
-#define MUX_FILTER_FREQ 3
-#define MUX_FILTER_RES 4
-#define MUX_ADSR_A 2
-#define MUX_ADSR_D 1
-#define MUX_ADSR_S 0
-#define MUX_ADSR_R 6
-#define MUX_OSC1_WAVE 5
-#define MUX_LFO1_AMP 8
-#define MUX_LFO1_FREQ 7
-#define MUX_LFO1_WAVE 9
-#endif
-
-#define RGB_R 5
-#define RGB_G 20
-#define RGB_B 21
 
 short oscConvert[] = {
   WAVEFORM_SINE,
@@ -151,7 +76,6 @@ void setup() {
 
   #ifdef USE_MIDI
   MIDI.begin();
-
   MIDI.setHandleControlChange(handleControlChange);
   MIDI.setHandleNoteOff(handleNoteOff);
   MIDI.setHandleNoteOn(handleNoteOn);
@@ -173,10 +97,10 @@ void setup() {
   mixer1.gain(2, 0.0);
   mixer1.gain(3, 0.0);
 
-  envelope1.attack(10.5); // millis max 11880
-  envelope1.decay(35);    // millis max 11880
+  envelope1.attack(0);    // millis max 11880
+  envelope1.decay(0);     // millis max 11880
   envelope1.sustain(1.0); // 0.0 - 1.0
-  envelope1.release(300); // millis max 11880
+  envelope1.release(1);   // millis max 11880
 
   filter1.frequency(FILTER_FREQ_MAX); // 10khz
   filter1.resonance(FILTER_RES_MIN);  // 0.7 - 5.0
@@ -188,16 +112,13 @@ void setup() {
   pinMode(MULTIPLEX_S2, OUTPUT);
   pinMode(MULTIPLEX_S3, OUTPUT);
   pinMode(MULTIPLEX_IN, INPUT);
-
-  // TODO: pinmodes for audio pcb?
-
+  
   // C4
   //handleNoteOn(0x00, 71, 0xFF);
 }
 
 void loop() {
   unsigned long currentMillis = millis();
-
   digitalWrite(LED, currentMillis % 1000 < 50);
 
   int m = currentMillis % 3000;
@@ -212,8 +133,6 @@ void loop() {
   #ifdef USE_MIDI
   MIDI.read();
   #endif
-
-  // possibly some sort of display?
 
   if (localControlEnabled) {
     unsigned long currentMicros = micros();
