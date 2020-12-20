@@ -4,6 +4,7 @@
 #define PCB_0V5
 
 #define USE_USBMIDI
+#define USE_MIDI
 
 #define LED 13
 
